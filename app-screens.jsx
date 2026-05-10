@@ -238,7 +238,7 @@ function ScrSplash() {
           for Strawberry
         </div>
         <div style={{ fontSize: 13, color: FINO_C.ink3, fontWeight: 500, marginBottom: 40 }}>
-          딱기를 위한 지능형 양액 처방 시스템
+          딸기를 위한 지능형 양액 처방 시스템
         </div>
 
         {/* progress dots */}
@@ -347,11 +347,11 @@ function ScrOnboarding() {
       <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14, flex: 1 }}>
         <Card pad={18}>
           <div style={{ fontSize: 12, fontWeight: 700, color: FINO_C.ink3, letterSpacing: 1, marginBottom: 8 }}>농장명</div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: FINO_C.ink }}>타슈쾄트 농장 #14</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: FINO_C.ink }}>타슈켄트 농장 #14</div>
         </Card>
 
         <Card pad={18}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: FINO_C.ink3, letterSpacing: 1, marginBottom: 12 }}>딱기 품종</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: FINO_C.ink3, letterSpacing: 1, marginBottom: 12 }}>딸기 품종</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{ width: 56, height: 56, borderRadius: 14, background: FINO_C.blueSurface, display:'flex',alignItems:'center',justifyContent:'center', fontWeight: 900, color: FINO_C.blue, fontSize: 18, letterSpacing: .5 }}>
               F-43
@@ -398,7 +398,7 @@ function ScrOnboarding() {
 // ─────────────────────────────────────────────────────────────
 // 03 HOME — Today
 // ─────────────────────────────────────────────────────────────
-function ScrHome({ seasonMonth = 2, stageIdx = 2, date = "18 MART" } = {}) {
+function ScrHome({ seasonMonth = 2, stageIdx = 2, date = "3월 18일" } = {}) {
   const season = getSeason(seasonMonth);
   const curStage = FINO_STAGES[stageIdx];
   return (
@@ -589,6 +589,7 @@ function ScrRx() {
           <Pill tone="ok">EC 1.10 ✓</Pill>
           <Pill tone="ok">K/Ca 1.7 ✓</Pill>
           <Pill tone="info">pH ~5.8</Pill>
+          <Pill tone="warn">원액 농축 1:100 희석</Pill>
         </div>
       </div>
 
@@ -661,7 +662,7 @@ function ScrGuide({ mode = 'main' }) {
   const instrTitle = isNursery ? '탱크 B에 물 600 L 채우기' : '탱크 A에 물 800 L 채우기';
   const instrBody = isNursery
     ? <>탱크의 <b style={{ color: ac }}>60%까지</b> 깨끗한 물을 채웁니다. 육묘장 EC 목표는 낮게 유지합니다.</>
-    : <>탱크의 <b style={{ color: ac }}>80%까지</b> 깨끗한 물을 채움니다. 그 다음 질산칼슘을 넣습니다.</>;
+    : <>탱크의 <b style={{ color: ac }}>80%까지</b> 깨끗한 물을 채웁니다. 그 다음 질산칼슘을 넣습니다.</>;
   const tipText = isNursery ? '팁: 자묘 뿌리 확인 후 급액하세요' : '팁: 믹서를 미리 켜두세요';
   const waveId = isNursery ? 'wave-n' : 'wave-a';
   const tankId = isNursery ? 'B' : 'A';
@@ -886,7 +887,7 @@ function ScrSettings({ mode = 'main' }) {
             <div style={{ width: 56, height: 56, borderRadius: 28, background: asg, color: ac, display:'flex', alignItems:'center', justifyContent:'center', fontSize: 22, fontWeight: 900 }}>A</div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 17, fontWeight: 700, color: FINO_C.ink }}>아크말 카리모프</div>
-              <div style={{ fontSize: 12.5, color: FINO_C.ink3, marginTop: 2 }}>타슈쾄트 농장 #14 · 1,200 m²</div>
+              <div style={{ fontSize: 12.5, color: FINO_C.ink3, marginTop: 2 }}>타슈켄트 농장 #14 · 1,200 m²</div>
             </div>
           </div>
         </Card>
@@ -1046,12 +1047,12 @@ function ScrNurseryHome({ stageIdx = 2 }) {
             <div style={{
               width: 56, height: 56, borderRadius: 14, background: stage.bg,
               display:'flex', alignItems:'center', justifyContent:'center',
-              color: stage.c, fontWeight: 900, fontSize: 15, letterSpacing: .3,
+              color: stage.c, fontWeight: 900, fontSize: stage.id.length > 2 ? 13 : 18, letterSpacing: .3,
             }}>{stage.id}</div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, color: FINO_C.ink3, fontWeight: 600, letterSpacing: 1 }}>현재 단계</div>
+              <div style={{ fontSize: 13, color: FINO_C.ink3, fontWeight: 600, letterSpacing: 1 }}>현재 단계</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: FINO_C.ink, marginTop: 2 }}>{stage.l}</div>
-              <div style={{ fontSize: 12, color: FINO_C.ink3, marginTop: 2 }}>{stage.dates} · {stage.days}</div>
+              <div style={{ fontSize: 13, color: FINO_C.ink3, marginTop: 2 }}>{stage.dates} · {stage.days}</div>
             </div>
             <div style={{ padding:'4px 10px', borderRadius: 100, background: FINO_C.greenSurface, fontSize: 12, fontWeight: 700, color: FINO_C.green }}>
               EC {stage.EC}
@@ -1067,9 +1068,11 @@ function ScrNurseryHome({ stageIdx = 2 }) {
               }}/>
             ))}
           </div>
-          <div style={{ display:'grid', gridTemplateColumns:`repeat(${totalStages},1fr)`, marginTop: 6, fontSize: 8, fontWeight: 700, textAlign:'center', letterSpacing: .3, color: FINO_C.ink3 }}>
+          <div style={{ display:'grid', gridTemplateColumns:`repeat(${totalStages},1fr)`, marginTop: 6, fontSize: 10, fontWeight: 700, textAlign:'center', letterSpacing: .3, color: FINO_C.ink3 }}>
             {STAGES_NURSERY.map((s,i) => (
-              <div key={s.id} style={{ color: i === stageIdx ? s.c : FINO_C.ink3, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{s.id}</div>
+              <div key={s.id} style={{ color: i === stageIdx ? s.c : FINO_C.ink3, overflow:'hidden', lineHeight: 1.2 }}>
+                {s.id.includes('-') ? <>{s.id.split('-')[0]}-<br/>{s.id.split('-')[1]}</> : s.id}
+              </div>
             ))}
           </div>
         </Card>
@@ -1084,16 +1087,17 @@ function ScrNurseryHome({ stageIdx = 2 }) {
             {[
               { tank:'A', name:'질산칼슘 (저농도)', amount:'2.1', unit:'kg', c: FINO_C.green },
               { tank:'B', name:'칼륨 + 마그네슘',   amount:'1.8', unit:'kg', c: '#15803D' },
-              { tank:'C', name:'질산 (소량)',        amount:'0.2', unit:'L',  c: FINO_C.red  },
+              { tank:'C', name:'질산 (소량)',        amount:'0.2', unit:'L',  c: FINO_C.amber },
             ].map((t,i) => (
               <div key={t.tank} style={{ display:'flex', alignItems:'center', gap:14, padding:'10px 0', borderBottom: i<2?'1px solid '+FINO_C.hairline:'none' }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: t.c, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight: 900, fontSize: 18 }}>{t.tank}</div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, color: FINO_C.ink }}>{t.name}</div>
+                  {t.tank === 'C' && <Pill tone="warn" style={{ marginTop: 4 }}>⚠ 산</Pill>}
                 </div>
                 <div style={{ textAlign:'right' }}>
                   <span style={{ fontSize: 20, fontWeight: 800, color: FINO_C.ink, fontVariantNumeric:'tabular-nums' }}>{t.amount}</span>
-                  <span style={{ fontSize: 12, color: FINO_C.ink3, fontWeight: 600, marginLeft: 3 }}>{t.unit}</span>
+                  <span style={{ fontSize: 13, color: FINO_C.ink3, fontWeight: 600, marginLeft: 3 }}>{t.unit}</span>
                 </div>
               </div>
             ))}
@@ -1136,8 +1140,8 @@ function ScrNurseryRx({ stageIdx = 2 }) {
     { tank:'B', formula:'MgSO₄',    name:'황산마그네슘',  amount:'0.4', unit:'kg' },
     { tank:'C', formula:'HNO₃ 60%', name:'질산',         amount:'0.2', unit:'L'  },
   ];
-  const tankColors = { A: FINO_C.green, B: '#15803D', C: FINO_C.red };
-  const tankBgs    = { A: FINO_C.greenSurface, B: FINO_C.greenLight, C: FINO_C.redLight };
+  const tankColors = { A: FINO_C.green, B: '#15803D', C: FINO_C.amber };
+  const tankBgs    = { A: FINO_C.greenSurface, B: FINO_C.greenLight, C: FINO_C.amberLight };
   const tankNames  = { A:'칼슘 그룹 (저농도)', B:'주요 비료', C:'산 (소량)' };
   return (
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F, overflow: 'auto' }}>
@@ -1148,13 +1152,14 @@ function ScrNurseryRx({ stageIdx = 2 }) {
           </button>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 21, fontWeight: 700, color: FINO_C.ink }}>육묘장 처방</div>
-            <div style={{ fontSize: 12.5, color: FINO_C.ink3, marginTop: 2 }}>{stage.id} · {stage.l} · 600 L</div>
+            <div style={{ fontSize: 13, color: FINO_C.ink3, marginTop: 2 }}>{stage.id} · {stage.l} · 600 L</div>
           </div>
         </div>
         <div style={{ display:'flex', gap: 6, flexWrap:'wrap' }}>
           <Pill tone="ok">EC {stage.EC} ✓</Pill>
           <Pill tone="info">저농도 육묘</Pill>
           <Pill tone="info">pH ~6.0</Pill>
+          <Pill tone="warn">원액 농축 1:100 희석</Pill>
         </div>
       </div>
 
@@ -1167,9 +1172,12 @@ function ScrNurseryRx({ stageIdx = 2 }) {
                 <div style={{ width:40, height:40, borderRadius:10, background: tankColors[tk], color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:900, fontSize:22 }}>{tk}</div>
                 <div style={{ flex:1 }}>
                   <div style={{ fontSize:15, fontWeight:800, color: tankColors[tk], letterSpacing:.5 }}>탱크 {tk}</div>
-                  <div style={{ fontSize:12, color: FINO_C.ink3 }}>{tankNames[tk]}</div>
+                  <div style={{ fontSize:13, color: FINO_C.ink3 }}>{tankNames[tk]}</div>
                 </div>
-                <div style={{ fontSize:11, color: FINO_C.ink3, fontWeight:700 }}>{tItems.length}개 성분</div>
+                <div style={{ display:'flex', alignItems:'center', gap: 6 }}>
+                  {tk === 'C' && <Pill tone="warn">⚠ 산</Pill>}
+                  <div style={{ fontSize:11, color: FINO_C.ink3, fontWeight:700 }}>{tItems.length}개 성분</div>
+                </div>
               </div>
               {tItems.map((it,i) => (
                 <div key={i} style={{ padding:'13px 18px', borderTop: i?'1px solid '+FINO_C.hairline:'none', display:'flex', alignItems:'center', gap:14 }}>
