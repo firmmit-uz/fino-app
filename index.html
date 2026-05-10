@@ -22,36 +22,60 @@ html,body{margin:0;padding:0;background:#F5F7FB;font-family:'Roboto',system-ui,s
 <script type="text/babel" src="app-screens.jsx"></script>
 <script type="text/babel">
 function App(){
+  const isApp = new URLSearchParams(location.search).get('app') === '1';
+  const toggle = () => {
+    const u = new URL(location.href);
+    isApp ? u.searchParams.delete('app') : u.searchParams.set('app','1');
+    location.href = u.toString();
+  };
+  const btnStyle = {
+    position:'fixed', top:12, right:12, zIndex:9999,
+    padding:'8px 16px', borderRadius:100, border:'none',
+    background: isApp ? '#3365FF' : '#16A34A',
+    color:'#fff', fontSize:13, fontWeight:700, cursor:'pointer',
+    boxShadow:'0 2px 12px rgba(0,0,0,.3)',
+    fontFamily:"'Roboto',system-ui,sans-serif",
+    display:'flex', alignItems:'center', gap:6, lineHeight:1,
+  };
+  if (isApp) return (
+    <>
+      <AppShell />
+      <button onClick={toggle} style={btnStyle}>🎨 캔버스 모드</button>
+    </>
+  );
   return (
-    <DesignCanvas title="FINO Mobile App · v13" subtitle="FIRMMIT Intelligent Nutrient Optimizer · for Strawberry · 13 screens · dual-mode">
-      <DCSection id="entry" title="공통 진입 — Common entry">
-        <DCArtboard id="splash" label="01 Splash" width={428} height={920}><Phone hideNav><ScrSplash/></Phone></DCArtboard>
-        <DCArtboard id="lang" label="02 Language" width={428} height={920}><Phone hideNav><ScrLanguage/></Phone></DCArtboard>
-        <DCArtboard id="onb" label="03 Onboarding" width={428} height={920}><Phone hideNav><ScrOnboarding/></Phone></DCArtboard>
-        <DCArtboard id="mode" label="04 Mode select" width={428} height={920}><Phone hideNav><ScrModeSelect/></Phone></DCArtboard>
-      </DCSection>
+    <>
+      <DesignCanvas title="FINO Mobile App · v13" subtitle="FIRMMIT Intelligent Nutrient Optimizer · for Strawberry · 13 screens · dual-mode">
+        <DCSection id="entry" title="공통 진입 — Common entry">
+          <DCArtboard id="splash" label="01 Splash" width={428} height={920}><Phone hideNav><ScrSplash/></Phone></DCArtboard>
+          <DCArtboard id="lang" label="02 Language" width={428} height={920}><Phone hideNav><ScrLanguage/></Phone></DCArtboard>
+          <DCArtboard id="onb" label="03 Onboarding" width={428} height={920}><Phone hideNav><ScrOnboarding/></Phone></DCArtboard>
+          <DCArtboard id="mode" label="04 Mode select" width={428} height={920}><Phone hideNav><ScrModeSelect/></Phone></DCArtboard>
+        </DCSection>
 
-      <DCSection id="nursery" title="육묘장 모드 — Nursery (green)">
-        <DCArtboard id="nur-home" label="05 육묘장 홈 · S2" width={428} height={920}><Phone navActive="home" navMode="nursery"><ScrNurseryHome stageIdx={2}/></Phone></DCArtboard>
-        <DCArtboard id="nur-rx" label="06 육묘장 처방 · S2" width={428} height={920}><Phone navActive="rx" navMode="nursery"><ScrNurseryRx stageIdx={2}/></Phone></DCArtboard>
-        <DCArtboard id="nur-guide" label="07 조제 가이드 (green)" width={428} height={920}><Phone navActive="guide" navMode="nursery"><ScrGuide mode="nursery"/></Phone></DCArtboard>
-        <DCArtboard id="nur-log" label="08 자묘 기록" width={428} height={920}><Phone navActive="log" navMode="nursery"><ScrNurseryLog/></Phone></DCArtboard>
-      </DCSection>
+        <DCSection id="nursery" title="육묘장 모드 — Nursery (green)">
+          <DCArtboard id="nur-home" label="05 육묘장 홈 · S2" width={428} height={920}><Phone navActive="home" navMode="nursery"><ScrNurseryHome stageIdx={2}/></Phone></DCArtboard>
+          <DCArtboard id="nur-rx" label="06 육묘장 처방 · S2" width={428} height={920}><Phone navActive="rx" navMode="nursery"><ScrNurseryRx stageIdx={2}/></Phone></DCArtboard>
+          <DCArtboard id="nur-guide" label="07 조제 가이드 (green)" width={428} height={920}><Phone navActive="guide" navMode="nursery"><ScrGuide mode="nursery"/></Phone></DCArtboard>
+          <DCArtboard id="nur-log" label="08 자묘 기록" width={428} height={920}><Phone navActive="log" navMode="nursery"><ScrNurseryLog/></Phone></DCArtboard>
+        </DCSection>
 
-      <DCSection id="main" title="본격재배 모드 — Main crop (blue)">
-        <DCArtboard id="home-win" label="09 본격재배 · 겨울" width={428} height={920}><Phone navActive="home"><ScrHome seasonMonth={2} stageIdx={2} date="3월 18일"/></Phone></DCArtboard>
-        <DCArtboard id="home-sum" label="09b · 여름" width={428} height={920}><Phone navActive="home"><ScrHome seasonMonth={6} stageIdx={0} date="7월 15일"/></Phone></DCArtboard>
-        <DCArtboard id="rx" label="10 본격재배 처방" width={428} height={920}><Phone navActive="rx"><ScrRx/></Phone></DCArtboard>
-        <DCArtboard id="guide-main" label="11 조제 가이드 (blue)" width={428} height={920}><Phone navActive="guide"><ScrGuide mode="main"/></Phone></DCArtboard>
-        <DCArtboard id="log" label="12 수확 기록" width={428} height={920}><Phone navActive="log"><ScrLog/></Phone></DCArtboard>
-      </DCSection>
+        <DCSection id="main" title="본격재배 모드 — Main crop (blue)">
+          <DCArtboard id="home-win" label="09 본격재배 · 겨울" width={428} height={920}><Phone navActive="home"><ScrHome seasonMonth={2} stageIdx={2} date="3월 18일"/></Phone></DCArtboard>
+          <DCArtboard id="home-sum" label="09b · 여름" width={428} height={920}><Phone navActive="home"><ScrHome seasonMonth={6} stageIdx={0} date="7월 15일"/></Phone></DCArtboard>
+          <DCArtboard id="rx" label="10 본격재배 처방" width={428} height={920}><Phone navActive="rx"><ScrRx/></Phone></DCArtboard>
+          <DCArtboard id="guide-main" label="11 조제 가이드 (blue)" width={428} height={920}><Phone navActive="guide"><ScrGuide mode="main"/></Phone></DCArtboard>
+          <DCArtboard id="log" label="12 수확 기록" width={428} height={920}><Phone navActive="log"><ScrLog/></Phone></DCArtboard>
+        </DCSection>
 
-      <DCSection id="common" title="공통 관리 — Shared">
-        <DCArtboard id="water" label="13 원수 수질" width={428} height={920}><Phone hideNav><ScrWater/></Phone></DCArtboard>
-        <DCArtboard id="set-main" label="14 설정 · 본격재배" width={428} height={920}><Phone navActive="set"><ScrSettings mode="main"/></Phone></DCArtboard>
-        <DCArtboard id="set-nur" label="14b 설정 · 육묘장" width={428} height={920}><Phone navActive="set" navMode="nursery"><ScrSettings mode="nursery"/></Phone></DCArtboard>
-      </DCSection>
-    </DesignCanvas>
+        <DCSection id="common" title="공통 관리 — Shared">
+          <DCArtboard id="water" label="13 원수 수질" width={428} height={920}><Phone hideNav><ScrWater/></Phone></DCArtboard>
+          <DCArtboard id="set-main" label="14 설정 · 본격재배" width={428} height={920}><Phone navActive="set"><ScrSettings mode="main"/></Phone></DCArtboard>
+          <DCArtboard id="set-nur" label="14b 설정 · 육묘장" width={428} height={920}><Phone navActive="set" navMode="nursery"><ScrSettings mode="nursery"/></Phone></DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+      <button onClick={toggle} style={btnStyle}>📱 앱 모드</button>
+    </>
   );
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);

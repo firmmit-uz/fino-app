@@ -160,7 +160,7 @@ function MButton({ children, color = FINO_C.blue, fg = '#fff', icon, full, onCli
 }
 
 // ── Bottom Nav ──
-function BottomNav({ active = 'home', mode = 'main' }) {
+function BottomNav({ active = 'home', mode = 'main', onClick }) {
   const ac  = mode === 'nursery' ? FINO_C.green       : FINO_C.blue;
   const asg = mode === 'nursery' ? FINO_C.greenSurface : FINO_C.blueSurface;
   const items = [
@@ -187,7 +187,7 @@ function BottomNav({ active = 'home', mode = 'main' }) {
       {items.map(it => {
         const on = it.id === active;
         return (
-          <div key={it.id} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:2, padding:'4px 0' }}>
+          <div key={it.id} onClick={() => onClick && onClick(it.id)} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:2, padding:'4px 0', cursor:'pointer' }}>
             <div style={{
               width: 64, height: 32, borderRadius: 16,
               background: on ? asg : 'transparent',
@@ -265,7 +265,7 @@ function ScrSplash() {
 // ─────────────────────────────────────────────────────────────
 // 02 LANGUAGE SELECT — first-run
 // ─────────────────────────────────────────────────────────────
-function ScrLanguage() {
+function ScrLanguage({ onSelectLang }) {
   const langs = [
     { l:'한국어',     sub:'Korean',          code:'KO', on: true  },
     { l:"O'zbek",   sub:'Lotin alifbosi',  code:'UZ', on: false },
@@ -291,7 +291,7 @@ function ScrLanguage() {
       {/* List */}
       <div style={{ padding: '8px 16px 16px', flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
         {langs.map((lg,i) => (
-          <div key={i} style={{
+          <div key={i} onClick={() => onSelectLang && onSelectLang(lg.code)} style={{
             padding: '16px 18px',
             borderRadius: 14,
             border: `2px solid ${lg.on ? FINO_C.blue : FINO_C.hairline}`,
@@ -329,7 +329,7 @@ function ScrLanguage() {
 // ─────────────────────────────────────────────────────────────
 // 03 ONBOARDING
 // ─────────────────────────────────────────────────────────────
-function ScrOnboarding() {
+function ScrOnboarding({ onNext }) {
   return (
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F }}>
       <div style={{ background: FINO_C.blue, color: '#fff', padding: '20px 20px 32px' }}>
@@ -388,7 +388,7 @@ function ScrOnboarding() {
         </Card>
 
         <div style={{ marginTop: 'auto', paddingTop: 8 }}>
-          <MButton full>계속하기 →</MButton>
+          <MButton full onClick={onNext}>계속하기 →</MButton>
         </div>
       </div>
     </div>
@@ -563,7 +563,7 @@ function ScrHome({ seasonMonth = 2, stageIdx = 2, date = "3월 18일" } = {}) {
 // ─────────────────────────────────────────────────────────────
 // 04 PRESCRIPTION DETAIL
 // ─────────────────────────────────────────────────────────────
-function ScrRx() {
+function ScrRx({ onBack }) {
   const items = [
     { tank:'A', formula:'Ca(NO₃)₂', name:'질산칼슘',     amount:'4.5', unit:'kg' },
     { tank:'A', formula:'NH₄NO₃',   name:'질산암모늄',    amount:'0.3', unit:'kg' },
@@ -577,7 +577,7 @@ function ScrRx() {
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F, overflow: 'auto' }}>
       <div style={{ background: '#fff', padding: '14px 20px 18px', borderBottom: '1px solid '+FINO_C.hairline }}>
         <div style={{ display:'flex', alignItems:'center', gap: 8, marginBottom: 10 }}>
-          <button style={{ width:40, height:40, borderRadius:20, border:'none', background:'transparent' }}>
+          <button onClick={onBack} style={{ width:40, height:40, borderRadius:20, border:'none', background:'transparent', cursor:'pointer' }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={FINO_C.ink} strokeWidth="2"><path d="M15 6l-6 6 6 6"/></svg>
           </button>
           <div style={{ flex: 1 }}>
@@ -650,7 +650,7 @@ function ScrRx() {
 // ─────────────────────────────────────────────────────────────
 // 05 GUIDE
 // ─────────────────────────────────────────────────────────────
-function ScrGuide({ mode = 'main' }) {
+function ScrGuide({ mode = 'main', onBack }) {
   const isNursery = mode === 'nursery';
   const ac  = isNursery ? FINO_C.green      : FINO_C.blue;
   const asg = isNursery ? FINO_C.greenSurface : FINO_C.blueSurface;
@@ -669,7 +669,7 @@ function ScrGuide({ mode = 'main' }) {
   return (
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F }}>
       <div style={{ background:'#fff', padding:'14px 20px', borderBottom:'1px solid '+FINO_C.hairline, display:'flex', alignItems:'center', gap:8 }}>
-        <button style={{ width:40, height:40, borderRadius:20, border:'none', background:'transparent' }}>
+        <button onClick={onBack} style={{ width:40, height:40, borderRadius:20, border:'none', background:'transparent', cursor:'pointer' }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={FINO_C.ink} strokeWidth="2"><path d="M15 6l-6 6 6 6"/></svg>
         </button>
         <div style={{ flex:1 }}>
@@ -939,7 +939,7 @@ function ScrSettings({ mode = 'main' }) {
 // ─────────────────────────────────────────────────────────────
 // MODE SELECT — 두 모드 선택 카드
 // ─────────────────────────────────────────────────────────────
-function ScrModeSelect() {
+function ScrModeSelect({ onSelectMode }) {
   return (
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F }}>
       <div style={{ background: '#fff', padding: '28px 24px 20px', borderBottom: '1px solid '+FINO_C.hairline, textAlign: 'center' }}>
@@ -952,10 +952,11 @@ function ScrModeSelect() {
 
       <div style={{ padding: 20, display:'flex', flexDirection:'column', gap: 16, flex: 1 }}>
         {/* Nursery Card */}
-        <div style={{
+        <div onClick={() => onSelectMode && onSelectMode('nursery')} style={{
           borderRadius: 20, overflow: 'hidden',
           border: '2px solid '+FINO_C.greenLight,
           boxShadow: '0 4px 20px rgba(22,163,74,.12)',
+          cursor: 'pointer',
         }}>
           <div style={{ background: 'linear-gradient(135deg, #14532D 0%, #16A34A 100%)', padding: '24px 24px 20px', color: '#fff' }}>
             <div style={{ display:'flex', alignItems:'center', gap: 12, marginBottom: 12 }}>
@@ -980,10 +981,11 @@ function ScrModeSelect() {
         </div>
 
         {/* Main Crop Card */}
-        <div style={{
+        <div onClick={() => onSelectMode && onSelectMode('main')} style={{
           borderRadius: 20, overflow: 'hidden',
           border: '2px solid '+FINO_C.blueLight,
           boxShadow: '0 4px 20px rgba(51,101,255,.12)',
+          cursor: 'pointer',
         }}>
           <div style={{ background: 'linear-gradient(135deg, #1E3FA8 0%, #3365FF 100%)', padding: '24px 24px 20px', color: '#fff' }}>
             <div style={{ display:'flex', alignItems:'center', gap: 12, marginBottom: 12 }}>
@@ -1130,7 +1132,7 @@ function ScrNurseryHome({ stageIdx = 2 }) {
 // ─────────────────────────────────────────────────────────────
 // NURSERY RX
 // ─────────────────────────────────────────────────────────────
-function ScrNurseryRx({ stageIdx = 2 }) {
+function ScrNurseryRx({ stageIdx = 2, onBack }) {
   const stage = STAGES_NURSERY[stageIdx] || STAGES_NURSERY[2];
   const items = [
     { tank:'A', formula:'Ca(NO₃)₂', name:'질산칼슘',     amount:'2.1', unit:'kg' },
@@ -1147,7 +1149,7 @@ function ScrNurseryRx({ stageIdx = 2 }) {
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F, overflow: 'auto' }}>
       <div style={{ background:'#fff', padding:'14px 20px 18px', borderBottom:'1px solid '+FINO_C.hairline }}>
         <div style={{ display:'flex', alignItems:'center', gap: 8, marginBottom: 10 }}>
-          <button style={{ width:40, height:40, borderRadius:20, border:'none', background:'transparent' }}>
+          <button onClick={onBack} style={{ width:40, height:40, borderRadius:20, border:'none', background:'transparent', cursor:'pointer' }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={FINO_C.ink} strokeWidth="2"><path d="M15 6l-6 6 6 6"/></svg>
           </button>
           <div style={{ flex: 1 }}>
@@ -1268,6 +1270,103 @@ function ScrNurseryLog() {
   );
 }
 
+// ─────────────────────────────────────────────────────────────
+// APP SHELL — interactive navigation mode (?app=1)
+// ─────────────────────────────────────────────────────────────
+function AppShell() {
+  function parseHash() {
+    const h = location.hash.replace(/^#\/?/, '');
+    if (!h) return { route: 'splash', mode: null };
+    const parts = h.split('/');
+    if (parts.length === 2) {
+      const [m, r] = parts;
+      if (['nursery','main'].includes(m) && ['home','rx','guide','log','set'].includes(r))
+        return { route: r, mode: m };
+    }
+    const r = parts[0];
+    return { route: ['lang','onb','mode','water'].includes(r) ? r : 'splash', mode: null };
+  }
+
+  const init = parseHash();
+  const [st, setSt] = React.useState({ route: init.route, mode: init.mode, lang: 'ko' });
+  const [hist, setHist] = React.useState([]);
+
+  // Splash auto-advance after 2s
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      setSt(s => s.route === 'splash' ? { ...s, route: 'lang' } : s);
+    }, 2000);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Update URL hash on route/mode change
+  React.useEffect(() => {
+    const { route, mode } = st;
+    if (mode && ['home','rx','guide','log','set'].includes(route))
+      location.hash = `/${mode}/${route}`;
+    else
+      location.hash = `/${route}`;
+  }, [st.route, st.mode]);
+
+  function go(route, opts = {}) {
+    setHist(h => [...h, st]);
+    setSt(s => ({ ...s, route, ...opts }));
+  }
+
+  function back() {
+    if (!hist.length) return;
+    const prev = hist[hist.length - 1];
+    setSt(prev);
+    setHist(h => h.slice(0, -1));
+  }
+
+  function onNavClick(r) { setSt(s => ({ ...s, route: r })); }
+
+  const { route, mode } = st;
+  const showNav = ['home','rx','guide','log','set'].includes(route);
+  const nm = mode || 'main';
+
+  let screen;
+  if      (route === 'splash') screen = <ScrSplash />;
+  else if (route === 'lang')   screen = <ScrLanguage onSelectLang={lg => go('onb', { lang: lg })} />;
+  else if (route === 'onb')    screen = <ScrOnboarding onNext={() => go('mode')} />;
+  else if (route === 'mode')   screen = <ScrModeSelect onSelectMode={m => go('home', { mode: m })} />;
+  else if (route === 'home')   screen = mode === 'nursery' ? <ScrNurseryHome /> : <ScrHome />;
+  else if (route === 'rx')     screen = mode === 'nursery' ? <ScrNurseryRx onBack={back} /> : <ScrRx onBack={back} />;
+  else if (route === 'guide')  screen = <ScrGuide mode={nm} onBack={back} />;
+  else if (route === 'log')    screen = mode === 'nursery' ? <ScrNurseryLog /> : <ScrLog />;
+  else if (route === 'water')  screen = <ScrWater />;
+  else if (route === 'set')    screen = <ScrSettings mode={nm} />;
+  else                         screen = <ScrSplash />;
+
+  const isMobile = window.innerWidth <= 440;
+  return (
+    <div style={{
+      width: '100vw', height: '100svh',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      fontFamily: FINO_F,
+    }}>
+      <div style={{
+        width: isMobile ? '100%' : 390,
+        height: isMobile ? '100%' : 844,
+        display: 'flex', flexDirection: 'column',
+        borderRadius: isMobile ? 0 : 44,
+        overflow: 'hidden',
+        boxShadow: isMobile ? 'none' : '0 32px 96px rgba(0,0,0,.6)',
+        border: isMobile ? 'none' : '8px solid rgba(255,255,255,.08)',
+      }}>
+        <AndroidStatusBar />
+        <div style={{ flex:1, display:'flex', flexDirection:'column', overflow:'hidden', minHeight:0 }}>
+          {screen}
+        </div>
+        {showNav && <BottomNav active={route} mode={nm} onClick={onNavClick} />}
+        <AndroidNavBar />
+      </div>
+    </div>
+  );
+}
+
 // ── Frame ──
 function Phone({ children, navActive, navMode = 'main', hideNav }) {
   return (
@@ -1288,4 +1387,5 @@ Object.assign(window, {
   ScrSplash, ScrLanguage, ScrOnboarding, ScrModeSelect,
   ScrHome, ScrRx, ScrGuide, ScrLog, ScrWater, ScrSettings,
   ScrNurseryHome, ScrNurseryRx, ScrNurseryLog,
+  AppShell,
 });
