@@ -1144,7 +1144,7 @@ function ScrNurseryRx({ stageIdx = 2, onBack }) {
   ];
   const tankColors = { A: FINO_C.green, B: '#15803D', C: FINO_C.amber };
   const tankBgs    = { A: FINO_C.greenSurface, B: FINO_C.greenLight, C: FINO_C.amberLight };
-  const tankNames  = { A:'칼슘 그룹 (저농도)', B:'주요 비료', C:'산 (소량)' };
+  const tankNames  = { A:'칼슘 그룹 (저농도)', B:'주요 비료', C:'별도 보관' };
   return (
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: FINO_C.bg, fontFamily: FINO_F, overflow: 'auto' }}>
       <div style={{ background:'#fff', padding:'14px 20px 18px', borderBottom:'1px solid '+FINO_C.hairline }}>
@@ -1178,14 +1178,14 @@ function ScrNurseryRx({ stageIdx = 2, onBack }) {
                 </div>
                 <div style={{ display:'flex', alignItems:'center', gap: 6 }}>
                   {tk === 'C' && <Pill tone="warn">⚠ 산</Pill>}
-                  <div style={{ fontSize:11, color: FINO_C.ink3, fontWeight:700 }}>{tItems.length}개 성분</div>
+                  <div style={{ fontSize:12, color: FINO_C.ink3, fontWeight:700 }}>{tItems.length}개 성분</div>
                 </div>
               </div>
               {tItems.map((it,i) => (
                 <div key={i} style={{ padding:'13px 18px', borderTop: i?'1px solid '+FINO_C.hairline:'none', display:'flex', alignItems:'center', gap:14 }}>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ fontSize:15, fontWeight:600, color: FINO_C.ink }}>{it.name}</div>
-                    <div style={{ fontSize:11.5, color: FINO_C.ink3, fontFamily:'monospace', marginTop:2 }}>{it.formula}</div>
+                    <div style={{ fontSize:13, color: FINO_C.ink3, fontFamily:'monospace', marginTop:2 }}>{it.formula}</div>
                   </div>
                   <div style={{ textAlign:'right' }}>
                     <span style={{ fontSize:22, fontWeight:800, color: FINO_C.ink, fontVariantNumeric:'tabular-nums' }}>{it.amount}</span>
@@ -1314,10 +1314,12 @@ function AppShell() {
   }
 
   function back() {
-    if (!hist.length) return;
-    const prev = hist[hist.length - 1];
-    setSt(prev);
-    setHist(h => h.slice(0, -1));
+    if (hist.length > 0) {
+      setSt(hist[hist.length - 1]);
+      setHist(h => h.slice(0, -1));
+    } else {
+      setSt(s => ({ ...s, route: s.mode ? 'home' : 'mode' }));
+    }
   }
 
   function onNavClick(r) { setSt(s => ({ ...s, route: r })); }
