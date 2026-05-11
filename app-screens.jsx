@@ -266,12 +266,13 @@ function ScrSplash() {
 // 02 LANGUAGE SELECT — first-run
 // ─────────────────────────────────────────────────────────────
 function ScrLanguage({ onSelectLang }) {
+  const [selected, setSelected] = React.useState('KO');
   const langs = [
-    { l:'한국어',     sub:'Korean',          code:'KO', on: true  },
-    { l:"O'zbek",   sub:'Lotin alifbosi',  code:'UZ', on: false },
-    { l:'Ўзбек',     sub:'Кирилл алифбоси', code:'УЗ', on: false },
-    { l:'Русский',   sub:'Russian',         code:'RU', on: false },
-    { l:'English',   sub:'English',         code:'EN', on: false },
+    { l:'한국어',     sub:'Korean',          code:'KO' },
+    { l:"O'zbek",   sub:'Lotin alifbosi',  code:'UZ' },
+    { l:'Ўзбек',     sub:'Кирилл алифбоси', code:'УЗ' },
+    { l:'Русский',   sub:'Russian',         code:'RU' },
+    { l:'English',   sub:'English',         code:'EN' },
   ];
   return (
     <div style={{ flex:1, display:'flex', flexDirection:'column', background: '#fff', fontFamily: FINO_F }}>
@@ -290,37 +291,40 @@ function ScrLanguage({ onSelectLang }) {
 
       {/* List */}
       <div style={{ padding: '8px 16px 16px', flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {langs.map((lg,i) => (
-          <div key={i} onClick={() => onSelectLang && onSelectLang(lg.code)} style={{
-            padding: '16px 18px',
-            borderRadius: 14,
-            border: `2px solid ${lg.on ? FINO_C.blue : FINO_C.hairline}`,
-            background: lg.on ? FINO_C.blueSurface : '#fff',
-            display:'flex', alignItems:'center', gap: 14,
-            cursor: 'pointer',
-          }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 12,
-              background: lg.on ? FINO_C.blue : FINO_C.hairline,
-              color: lg.on ? '#fff' : FINO_C.ink3,
-              display:'flex', alignItems:'center', justifyContent:'center',
-              fontWeight: 900, fontSize: 13, letterSpacing: .5,
-            }}>{lg.code}</div>
-            <div style={{ flex:1 }}>
-              <div style={{ fontSize: 17, fontWeight: 700, color: FINO_C.ink, lineHeight: 1.1 }}>{lg.l}</div>
-              <div style={{ fontSize: 12.5, color: FINO_C.ink3, marginTop: 3 }}>{lg.sub}</div>
+        {langs.map((lg,i) => {
+          const on = selected === lg.code;
+          return (
+            <div key={i} onClick={() => setSelected(lg.code)} style={{
+              padding: '16px 18px',
+              borderRadius: 14,
+              border: `2px solid ${on ? FINO_C.blue : FINO_C.hairline}`,
+              background: on ? FINO_C.blueSurface : '#fff',
+              display:'flex', alignItems:'center', gap: 14,
+              cursor: 'pointer',
+            }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                background: on ? FINO_C.blue : FINO_C.hairline,
+                color: on ? '#fff' : FINO_C.ink3,
+                display:'flex', alignItems:'center', justifyContent:'center',
+                fontWeight: 900, fontSize: 13, letterSpacing: .5,
+              }}>{lg.code}</div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize: 17, fontWeight: 700, color: FINO_C.ink, lineHeight: 1.1 }}>{lg.l}</div>
+                <div style={{ fontSize: 12.5, color: FINO_C.ink3, marginTop: 3 }}>{lg.sub}</div>
+              </div>
+              {on
+                ? <svg width="24" height="24" viewBox="0 0 24 24" fill={FINO_C.blue}><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" strokeWidth="2.5" fill="none"/></svg>
+                : <div style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${FINO_C.ink4}` }}/>
+              }
             </div>
-            {lg.on
-              ? <svg width="24" height="24" viewBox="0 0 24 24" fill={FINO_C.blue}><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6" stroke="#fff" strokeWidth="2.5" fill="none"/></svg>
-              : <div style={{ width: 22, height: 22, borderRadius: 11, border: `2px solid ${FINO_C.ink4}` }}/>
-            }
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* CTA */}
       <div style={{ padding: '0 16px 24px' }}>
-        <MButton full icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>}>계속하기</MButton>
+        <MButton full onClick={() => onSelectLang && onSelectLang(selected)} icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>}>계속하기</MButton>
       </div>
     </div>
   );
